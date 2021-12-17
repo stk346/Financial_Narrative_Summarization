@@ -49,3 +49,24 @@ longformer는 추출요약(extractive summarization) 기법 중 Edmundsonsummeri
 
 
 ### 2. Pegasus
+Pegasus는 생성요약에 특화 되었으며 2020년 모델이 발표된 당시 12개 데이터셋에서 SOTA를 달성했습니다. 또한 이전 년도 FNS 컨퍼런스에서 좋은 성적을 냈던 만큼 해당 모델이 summarization task에 적합하다고 판단했습니다.  
+label은 pre-trained T5에 train data를 잘라 넣어 각각 150자 정도를 생성했습니다. 예를 들어 문장의 token 개수가 4096개라면 512\*8개로 잘라서 넣어 주었습니다.
+
+## Evaluation
+
+**Rouge score**
+|  | Rouge-1 | Rouge-L |
+|:----|:-------:|:------:|
+| Longformer | 0.54 | 0.39 |
+| Pegasus | 0.34 | 0.21 |
+
+저희는 각기 다른 방식으로 label을 추출했기에 rouge-score와 더불어 정성적 평가를 수행했습니다.
+
+| | Text 길이 (input: 1683) |
+|:---------|:--------------:|
+| longformer | 342 words |
+| pegasus | 110 words |
+
+길이는 pegasus가 상대적으로 짧았습니다. 또한 longformer 모델은 생성요약을 사용하는데 마치 추출요약처럼 output이 나왔습니다. 이는 label을 추출요약을 사용해 만들었기 때문으로 보입니다. 롱포머는 문장 요약이 꽤 잘 수행되지만 글의 뒷부분 내용이 포함되지 않는 경우가 많습니다.  
+  
+ abstractive summarization은 문장을 생성하기 때문에 내용을 왜곡할 수 있는 여지가 있습니다. 모델 내 비슷하게 임베딩 된 단어들로 치환되는 과정에서 뜻이 약간 다르게 해석될 수 있는 부분이 있습니다. 또한 의문문을 써야 할 부분이 아닌데 물음표가 등장하곤 합니다. 하지만 요약이 잘 된 경우 3-4 문장에 해당하는 부분을 깔끔하게 처리했습니다.

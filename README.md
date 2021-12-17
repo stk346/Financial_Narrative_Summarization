@@ -9,9 +9,9 @@
   
 
 * [데이터의 출처](#데이터의-출처)
-* Preprocessing
-* Modeling
-* Evaluation
+* [Preprocessing](#Preprocessing)
+* [Modeling](#Modeling)
+* [Evaluation](#Evaluation)
 
 
 ## 데이터의 출처

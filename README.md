@@ -32,7 +32,7 @@ Data_Preprocessing/Dataset_preprocessing.ipynb에 해당하는 부분입니다.
 
 우선 Train, Test의 문서 길이 분포를 측정한 뒤 적절한 부분을 잘라주었습니다. 이후 정규식을 이용해 저희가 원하지 않는 부분은 공백으로 치환했습니다.
 
-하지만 이대로 모델링을 진행할 수는 없었습니다. 저희가 초기 baseline model로 삼았던 T5를 비롯한 bert 기반 모델의 경우 최대 인풋 길이가 512라는 점이었습니다. 반면 저희가 가진 데이터의 75%에 해당하는 길이는 4,000 token이었습니다.  
+하지만 이대로 모델링을 진행할 수는 없었습니다. 저희가 초기 baseline model로 삼았던 T5를 비롯한 bert 기반 모델의 경우 최대 인풋 길이가 512라는 점 때문이었습니다. 반면 저희가 가진 데이터의 75%에 해당하는 길이는 4,000 token이었습니다.  
 label 또한 train data와 짝이 맞지 않거나 내용이 다른 것을 발견했습니다. 따라서 방향을 수정하게 되었습니다.
 
 1. 추출요약, 생성요약을 사용해 label을 새로 만든다.
@@ -43,4 +43,9 @@ label 또한 train data와 짝이 맞지 않거나 내용이 다른 것을 발�
 ## Modeling
 
 ### 1. Longformer
-longformer는 추출요약(extractive summarization)을 사용했습니다. 
+longformer는 추출요약(extractive summarization) 기법 중 Edmundsonsummerizer와 Textrank 알고리즘을 이용했습니다. Edmundsonsummerizer 알고리즘의 경우 중요한 단어를 따로 지정해줄 수 있기 때문에 재무제표에 등장하는 중요한 문장을 더욱 잘 추출할 수 있다고 생각했기 때문입니다. 해당 기법은 문장의 개수를 지정해 요약을 진행할 수 있는데 저희는 12문장을 지정했습니다. 이 중 500 token이 넘어가는 text에 대해서는 Textrank로 label을 만들었습니다.
+
+일반적인 attention 기법과 달리 longformer는 sparse attention 기법을 이용하여 더욱 긴 sequence를 input으로 넣을 수 있습니다. base의 경우 4096이며 large는 16,384입니다. 하지만 large 모델의 사이즈가 너무 컸기 때문에 저희는 base 모델을 이용했습니다.
+
+
+### 2. Pegasus

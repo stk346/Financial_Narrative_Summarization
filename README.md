@@ -33,7 +33,7 @@ Data_Preprocessing/Dataset_preprocessing.ipynb에 해당하는 부분입니다.
 우선 Train, Test의 문서 길이 분포를 측정한 뒤 적절한 부분을 잘라주었습니다. 이후 정규식을 이용해 저희가 원하지 않는 부분은 공백으로 치환했습니다.
 
 하지만 이대로 모델링을 진행할 수는 없었습니다. 저희가 초기 baseline model로 삼았던 T5를 비롯한 bert 기반 모델의 경우 최대 인풋 길이가 512라는 점 때문이었습니다. 반면 저희가 가진 데이터의 75%에 해당하는 길이는 4,000 token이었습니다.  
-label 또한 train data와 짝이 맞지 않거나 내용이 다른 것을 발견했습니다. 따라서 다음과 같이 방향을 수정하게 되었습니다.
+label 또한 Full_Text와 짝이 맞지 않거나 내용이 다른 것을 발견했습니다. 따라서 다음과 같이 방향을 수정하게 되었습니다.
 
 1. 추출요약, 생성요약을 사용해 label을 새로 만든다.
 2. input sequence가 4,000자 정도 되는 모델을 이용해 summarization을 한다. (모델: longformer, 추출요약으로 label 생성)
